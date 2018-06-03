@@ -7,7 +7,9 @@
 #include "graphicview.h"
 #include <iostream>
 #include "polygon.h"
-   class MainWindow;
+
+class MainWindow;
+
 class GeogebraPlane : public QObject
 {
     Q_OBJECT
@@ -15,13 +17,22 @@ public:
     GeogebraPlane() = default;
     GeogebraPlane(GraphicsView*, QGraphicsScene*, MainWindow*);
     void UpdateScene();
+    QGraphicsScene* GetGraphicsScene() const
+    {
+        return scene_;
+    }
+    GraphicsView* GetGraphicsView() const
+    {
+        return graphics_view_;
+    }
 public slots:
     void AddPoint(QPoint point);
 private:
-    std::vector<Polygon> polygons_;
+    std::vector<Polygon> complete_polygons_;
+    Polygon incomplete_polygon_;
     GraphicsView* graphics_view_;
     QGraphicsScene* scene_;
-
+    friend class RayDrawer;
     MainWindow* main_window_;
 signals:
     void ErrorDuringAddingPoint(const QString& string);

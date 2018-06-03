@@ -5,8 +5,9 @@
 #include <iostream>
 #include <memory>
 
-namespace Ui {
-class Dialog;
+namespace Ui
+{
+    class Dialog;
 }
 
 class Dialog : public QDialog, std::enable_shared_from_this<Dialog>

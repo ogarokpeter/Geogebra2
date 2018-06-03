@@ -1,6 +1,7 @@
 #pragma once
 #include "point.h"
 #include "segment.h"
+#include <vector>
 
 class Polygon
 {
@@ -12,13 +13,13 @@ public:
 
     Point GetVertex(int num) const;
     Point GetMassCenter() const;
-    enum class InsideStatus {
+    enum class InsideStatus
+    {
         INSIDE,
         ON_BORDER,
         OUTSIDE
     };
-    InsideStatus Inside(const Point& point) const;
-    bool IsOnBorder(const Point& point) const;
+    InsideStatus GetInsideStatus(const Point& point) const;
     int Size() const;
 
     void SetRefractiveIndex(RealNumber refractive_index)
@@ -26,15 +27,17 @@ public:
         refractive_index_ = refractive_index;
     }
 
-    RealNumber GetRefactiveIndex() const {
+    RealNumber GetRefractiveIndex() const
+    {
         return refractive_index_;
     }
 
-    bool isSegmentIntersects(const Segment& segment);
+    bool DoesSegmentIntersectPolygon(const Segment& segment) const;
 
 
 private:
     int CrossQty(const Segment& segment) const;
+    bool IsPointOnBorder(const Point& point) const;
     std::vector<Point> vertices_;
     RealNumber refractive_index_ = 0;
 };

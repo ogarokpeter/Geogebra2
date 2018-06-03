@@ -35,7 +35,10 @@ SOURCES += \
     polygon.cpp \
     mainwindow.cpp \
     polygonmanager.cpp \
-    enterreflexiveindex.cpp
+    enterrefractiveindex.cpp \
+    switch.cpp \
+    raydrawer.cpp \
+    ray.cpp
 
 HEADERS += \
         #widget.h \
@@ -48,7 +51,10 @@ HEADERS += \
     polygon.h \
     mainwindow.h \
     polygonmanager.h \
-    enterreflexiveindex.h
+    enterrefractiveindex.h \
+    switch.h \
+    raydrawer.h \
+    ray.h
 
 #FORMS += \
 #        widget.ui \
@@ -57,4 +63,6 @@ HEADERS += \
 
 FORMS += \
     mainwindow.ui \
-    enterreflexiveindex.ui
+    enterRefractiveindex.ui \
+    dialog.ui \
+    enterrefractiveindex.ui
