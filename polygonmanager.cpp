@@ -19,29 +19,33 @@ GeogebraPlane::GeogebraPlane(GraphicsView * graphics_view, QGraphicsScene *scene
     complete_polygons_.push_back(Polygon{});
 }
 
-void MakeColorFromRefractiveIndex(double index, int& red, int& green, int& blue)
+struct Color
 {
-    red = 0;
-    green = 0;
-    blue = 0;
+    int red, green, blue;
+};
+
+QColor MakeColorFromRefractiveIndex(double index)
+{
+    /*int red = 0, green = 0, blue = 0;
     if (!((index >= MinRefractiveIndex) && (index <= MaxRefractiveIndex)))
     {
-        return;
+        return {red, green, blue};
     }
     double mid = (MinRefractiveIndex + MaxRefractiveIndex) / 2;
     if (index >= mid)
     {
         green = round(255 * ((MaxRefractiveIndex - index) / (MaxRefractiveIndex - mid)));
         red = round(255 - green / 20);
-
     }
     else
     {
         red = round(255 * ((index - MinRefractiveIndex) / (mid - MinRefractiveIndex)));
         green = round(255 - red / 20);
-
     }
-
+    return {red, green, blue};*/
+    QColor color;
+    color.setHsv(180 - std::round((index - 1) * 60), 255, 255);
+    return color;
 }
 
 void GeogebraPlane::UpdateScene()
@@ -55,10 +59,9 @@ void GeogebraPlane::UpdateScene()
             auto point = polygon.GetVertex(vertex);
             qt_polygon.push_back(point.GetQPoint());
         }
-        int red = 255, green = 0, blue = 0;
-        MakeColorFromRefractiveIndex(polygon.GetRefractiveIndex(), red, green, blue);
+        auto color = MakeColorFromRefractiveIndex(polygon.GetRefractiveIndex());
         // std::cout << red << " " << green << " " << blue << std::endl;
-        QBrush brush(QColor(red, green, blue));
+        QBrush brush(color);
         QPen pen;
         scene_->addPolygon(qt_polygon, pen, brush);
     }
@@ -129,7 +132,7 @@ void GeogebraPlane::AddPoint(QPoint point)
             }
         }
         emit FinishEnteringPolygon(&incomplete_polygon_);
-        std::cout << incomplete_polygon_.GetRefractiveIndex() << std::endl;
+        // std::cout << incomplete_polygon_.GetRefractiveIndex() << std::endl;
         complete_polygons_.push_back(incomplete_polygon_);
         incomplete_polygon_ = Polygon{};
         UpdateScene();

@@ -1,5 +1,5 @@
 #include "enterrefractiveindex.h"
-#include "ui_enterRefractiveindex.h"
+#include "ui_enterrefractiveindex.h"
 
 EnterRefractiveIndex::EnterRefractiveIndex(QWidget *parent) :
     QDialog(parent),

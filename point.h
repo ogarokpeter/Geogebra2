@@ -36,8 +36,10 @@ public:
     }
     void Rotate(const double angle)
     {
-        x_ = x_ * cos(angle) - y_ * sin(angle);
-        y_ = x_ * sin(angle) + y_ * cos(angle);
+        auto old_x_ = x_;
+        auto old_y_ = y_;
+        x_ = old_x_ * cos(angle) - old_y_ * sin(angle);
+        y_ = old_x_ * sin(angle) + old_y_ * cos(angle);
     }
 
     Point operator+(const Point& other) const

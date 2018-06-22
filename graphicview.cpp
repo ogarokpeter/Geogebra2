@@ -4,7 +4,6 @@
 
 void GraphicsView::mousePressEvent(QMouseEvent *event)
 {
-    //std::cout << "Kek!" << std::endl;
     if (event->button() == Qt::LeftButton)
     {
         emit PressLeftMouseButton(event->pos());

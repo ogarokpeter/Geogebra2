@@ -16,6 +16,12 @@ class GeogebraPlane : public QObject
 public:
     GeogebraPlane() = default;
     GeogebraPlane(GraphicsView*, QGraphicsScene*, MainWindow*);
+    void SetParams(GraphicsView* view, QGraphicsScene* scene, MainWindow* window)
+    {
+        graphics_view_ = view;
+        scene_ = scene;
+        main_window_ = window;
+    }
     void UpdateScene();
     QGraphicsScene* GetGraphicsScene() const
     {

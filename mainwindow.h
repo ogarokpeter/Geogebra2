@@ -35,7 +35,7 @@ private:
     Ui::MainWindow *ui;
     QGraphicsScene* scene_;
     GraphicsView* graphics_view_;
-    GeogebraPlane plane;
+    GeogebraPlane* plane;
     EnteringStatus status_ = EnteringStatus::WAITING;
     std::vector<Ray> rays_;
     std::vector<QPoint> ray_points_;

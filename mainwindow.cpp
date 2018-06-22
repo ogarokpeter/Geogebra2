@@ -8,15 +8,21 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    scene_(new QGraphicsScene(0, 0, 400, 400)),
-    graphics_view_(new GraphicsView(scene_)),
-    plane(graphics_view_, scene_, this)
+    plane(new GeogebraPlane())
 {
     ui->setupUi(this);
-    graphics_view_->show();
+    // QDesktopWidget *widget = QApplication::desktop();
+    int width = this->width();     // returns desktop width
+    int height = this->height();     // returns desktop height
+    setFixedSize(width, height);
+    graphics_view_ = ui->graphicsView;
+    auto size = graphics_view_->size();
+    scene_ = new QGraphicsScene(0, 0, size.width() - 2, size.height() - 2);
+    graphics_view_->setScene(scene_);
     graphics_view_->setRenderHint(QPainter::Antialiasing);
-    QObject::connect(&plane, SIGNAL(ErrorDuringAddingPoint(QString)), this, SLOT(OpenDialogWindow(QString)));
-    QObject::connect(&plane, SIGNAL(FinishEnteringPolygon(Polygon*)), this, SLOT(ActionEnteringPolygonEnded(Polygon*)));
+    plane->SetParams(graphics_view_, scene_, this);
+    QObject::connect(plane, SIGNAL(ErrorDuringAddingPoint(QString)), this, SLOT(OpenDialogWindow(QString)));
+    QObject::connect(plane, SIGNAL(FinishEnteringPolygon(Polygon*)), this, SLOT(ActionEnteringPolygonEnded(Polygon*)));
     QObject::connect(graphics_view_, SIGNAL(PressLeftMouseButton(QPoint)), this, SLOT(ActionLeftMouseButtonPressed(QPoint)));
 }
 
@@ -25,6 +31,7 @@ MainWindow::~MainWindow()
     delete ui;
     delete scene_;
     delete graphics_view_;
+    delete plane;
 }
 
 void MainWindow::OpenDialogWindow(QString text)
@@ -58,7 +65,7 @@ void MainWindow::ActionLeftMouseButtonPressed(QPoint point)
     }
     if (status_ == EnteringStatus::ENTERINGPOLYGON)
     {
-        plane.AddPoint(point);
+        plane->AddPoint(point);
     }
     else
     {
@@ -71,10 +78,10 @@ void MainWindow::ActionLeftMouseButtonPressed(QPoint point)
         }
     }
     scene_->clear();
-    plane.UpdateScene();
+    plane->UpdateScene();
     for (const auto& ray: rays_)
     {
-        RayDrawer drawer(ray, &plane);
+        RayDrawer drawer(ray, plane);
         drawer.TrassRay();
     }
 }

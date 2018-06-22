@@ -15,7 +15,10 @@ class EnterRefractiveIndex : public QDialog
 public:
     explicit EnterRefractiveIndex(QWidget *parent = 0);
     ~EnterRefractiveIndex();
-    void SetPolygon(Polygon* polygon) { polygon_ = polygon; }
+    void SetPolygon(Polygon* polygon)
+    {
+        polygon_ = polygon;
+    }
 
 
 private slots:

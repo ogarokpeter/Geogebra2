@@ -62,7 +62,7 @@ HEADERS += \
     dialog.ui
 
 FORMS += \
-    mainwindow.ui \
-    enterRefractiveindex.ui \
     dialog.ui \
-    enterrefractiveindex.ui
+    enterrefractiveindex.ui \
+    mainwindow__new.ui \
+    mainwindow.ui
